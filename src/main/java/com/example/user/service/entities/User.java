@@ -1,9 +1,10 @@
 package com.example.user.service.entities;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
-
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,6 +17,24 @@ import jakarta.persistence.Table;
 @Table(name = "User")
 public class User {
 	
+
+	public User() {
+		super();
+	}
+
+	public User(String userId, String name, String email, String origin, String userSubtype, Date previousBookingDate,
+			List<String> ratingId, List<Identification> userIdentification, List<ContactMedium> contactMedium) {
+		super();
+		this.userId = userId;
+		this.name = name;
+		this.email = email;
+		this.origin = origin;
+		this.userSubtype = userSubtype;
+		this.previousBookingDate = previousBookingDate;
+		this.ratingId = ratingId;
+		this.userIdentification = userIdentification;
+		this.contactMedium = contactMedium;
+	}
 
 	@Id
     @Column(name = "ID")
@@ -34,10 +53,10 @@ public class User {
 	
 	private List<String> ratingId;
 			
-	@OneToMany(mappedBy= "user")		
-	private List<Identification> userIdentification;
+	@OneToMany(mappedBy= "user", cascade = CascadeType.ALL)
+	private List<Identification> userIdentification = new ArrayList<>();
 	
-	@OneToMany(mappedBy= "user")	
+	@OneToMany(mappedBy= "user", cascade = CascadeType.ALL)	
 	private List<ContactMedium> contactMedium;
 		
 	

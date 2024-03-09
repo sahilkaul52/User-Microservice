@@ -1,5 +1,7 @@
 package com.example.user.service.serviceImpl;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -16,6 +18,7 @@ import com.example.user.service.mapstruct.UserMapstruct;
 import com.example.user.service.payload.UserDTO;
 import com.example.user.service.repository.UserRepository;
 import com.example.user.service.services.UserService;
+
 
 
 @Component
@@ -46,6 +49,7 @@ public class UserServiceImpl implements UserService
 	   User user = userMapstruct.toEntity(userdto);
 	   
 	   user.setUserId(UUID.randomUUID().toString());
+	   
 	
 		User createdUser = userRepository.save(user);
 		
@@ -69,7 +73,7 @@ public class UserServiceImpl implements UserService
 	}
 	
 	
-	public UserDTO UpdateUser(String id, UserDTO dto)
+	public UserDTO updateUser(String id, UserDTO dto)
 	{
 		
 		Optional<User> optional = userRepository.findById(id);
@@ -87,11 +91,44 @@ public class UserServiceImpl implements UserService
 		
 		return updatedDTO;
 	}
-	
-	
-	
-	
-	
+
+
+	@Override
+	public UserDTO deleteUser(String userId) {
+		
+	    Optional<User> optional = userRepository.findById(userId);
+		
+	    User user = optional.orElseThrow();
+	    
+		userRepository.deleteById(userId);
+		
+		UserDTO userdto= userMapstruct.toDto(user);
+		
+		return userdto;
+	}
+
+
+	@Override
+	public List<UserDTO> getListOfUser(List<String> userIds) {
+		
+		List<User> allUsers = userRepository.findAllById(userIds);
+		
+		List<UserDTO> dtoList = userMapstruct.toDtoList(allUsers);
+		
+		return dtoList;
+		
+	}
+
+
+	public List<UserDTO> findAll() 
+	{
+       List<User> allUser = userRepository.findAll();	
+       
+       List<UserDTO> allUserDTO = userMapstruct.toDtoList(allUser);
+       
+       return allUserDTO;
+       
+	}
 	
 	
 }

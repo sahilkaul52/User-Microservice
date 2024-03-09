@@ -1,5 +1,6 @@
 package com.example.user.service.payload;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -10,7 +11,7 @@ public class UserDTO
 	
 	private String email;
 	
-	private List<IdentificationDTO> userIdentificationDTO;
+	private List<IdentificationDTO> userIdentificationDTO = new ArrayList<>();
 	
 	private List<ContactMediumDTO> contactMediumDTO;
 	

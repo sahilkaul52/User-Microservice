@@ -10,14 +10,16 @@ import com.example.user.service.entities.User;
 import com.example.user.service.payload.UserDTO;
 
 @Component
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {IdentificationMapstruct.class} )
 public interface UserMapstruct
 {
 	  
 	@Mapping(source="nationality", target= "origin")  // target refers to entity here and soucr refers to dto ka field
-    User toEntity(UserDTO userdto);
+    @Mapping(source = "userIdentificationDTO", target = "userIdentification")
+	User toEntity(UserDTO userdto);
     
     @Mapping(source= "origin", target="nationality")  
+    @Mapping(source = "userIdentification", target="userIdentificationDTO")
     UserDTO toDto(User user);
 	
     
